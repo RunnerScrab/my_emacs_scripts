@@ -4,8 +4,8 @@
 
 (custom-theme-set-faces
  'AmberConsole
- '(default ((t (:inherit nil :stipple nil :background "#000000" :foreground "#FFB800" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 101 :width normal :foundry "ADBO" :family "Source Code Pro"))))
- '(cursor ((t (:background "#FFB800"))))
+ '(default ((t (:inherit nil :stipple nil :background "#000000" :foreground "#BA6900" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 101 :width normal :foundry "ADBO" :family "Source Code Pro"))))
+ '(cursor ((t (:background "#cf7b1c"))))
  '(fixed-pitch ((t (:family "Monospace"))))
  '(variable-pitch ((((type w32)) (:foundry "outline" :family "Arial")) (t (:family "Sans Serif"))))
  '(escape-glyph ((((background dark)) (:foreground "cyan")) (((type pc)) (:foreground "magenta")) (t (:foreground "brown"))))

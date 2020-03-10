@@ -1,4 +1,15 @@
+
 (require 'package)
+
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+
+(defun set-terminal-mode ()
+  (setq-default mode-line-format nil)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (toggle-scroll-bar -1))
+
+(unless (display-graphic-p) (set-terminal-mode))
 
 (defun toggle-welcome-screen (value)
   (let ((notval (not value)))
@@ -30,23 +41,24 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector [default default default italic
- underline success warning error]) '(ansi-color-names-vector
- ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(custom-enabled-themes (quote (AmberConsole)))
  '(custom-safe-themes
    (quote
-    ("87570cba94c93fbab6b7e38c52252f3ec153d1d8c087b349d4793b313524ce50" default)))
+    ("50706e2757d1c876672b9f22ad639f61b2d7d050bcd3c1b2b07e460611da2fc8" "eebea024af0b59bfa1b9068f337d3461f22d3cbbf2228d5ad2412edf0ae6b432" "a627b8fac6a8c02903c0865c40f6830f619e3b49f119ca95753036227aaf1587" "87570cba94c93fbab6b7e38c52252f3ec153d1d8c087b349d4793b313524ce50" default)))
  '(fill-column 80)
  '(package-selected-packages
    (quote
-    (clang-format+ clang-format auto-complete speed-type slime))))
+    (olivetti clang-format+ clang-format auto-complete speed-type slime))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "PT Mono" :foundry "PARA" :slant normal :weight normal :height 98 :width normal)))))
 
 (setq inferior-lisp-program "/usr/bin/sbcl")
 
@@ -61,13 +73,13 @@
        c-basic-offset)))
 
 (defun mycmodehook ()
-    ;; Add kernel style
-            (c-add-style
-             "linux-tabs-only"
-             '("linux" (c-offsets-alist
-                        (arglist-cont-nonempty
-                         c-lineup-gcc-asm-reg
-                         c-lineup-arglist-tabs-only)))))
+  ;; Add kernel style
+  (c-add-style
+   "linux-tabs-only"
+   '("linux" (c-offsets-alist
+	      (arglist-cont-nonempty
+	       c-lineup-gcc-asm-reg
+	       c-lineup-arglist-tabs-only)))))
 
 (add-hook 'c-mode-common-hook 'mycmodehook)
 (add-hook 'c++-mode-common-hook 'mycmodehook)
@@ -81,7 +93,7 @@
 
 (add-hook 'c-mode-hook #'enable-kernel-edit-mode)
 (add-hook 'c++-mode-hook #'enable-kernel-edit-mode)
-
+(add-hook 'c++-mode-hook (lambda () (c-set-style "bsd")))
 (defun my-save-hook ()
   "Called when files are saved."
   (delete-trailing-whitespace)
@@ -96,10 +108,9 @@
     (with-current-buffer buf
       (when (and (buffer-file-name) (file-exists-p (buffer-file-name)) (not (buffer-modified-p)))
 	(revert-buffer t t t))
-
       )
     )
-  (message "Refreshed open files.") )
+  )
 
-(global-set-key (kbd "<f5>") (funcall #'revert-all-buffers))
+(global-set-key (kbd "<f5>") #'revert-all-buffers)
 (global-set-key (kbd "<f6>") (lambda () (interactive) (indent-region (point-min) (point-max))))
