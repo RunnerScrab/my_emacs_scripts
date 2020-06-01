@@ -1,4 +1,4 @@
-
+(require 'cc-mode)
 (require 'package)
 
 (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
@@ -52,7 +52,7 @@
  '(fill-column 80)
  '(package-selected-packages
    (quote
-    (olivetti clang-format+ clang-format auto-complete speed-type slime))))
+    (format-all typit olivetti clang-format+ clang-format auto-complete speed-type slime))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -91,9 +91,18 @@
     (setq show-trailing-whitespace nil)
     (c-set-style "linux-tabs-only")))
 
+(defun enable-c++-edit-mode ()
+  (let ((filename (buffer-file-name)))
+    ;; Enable kernel mode for the appropriate files
+    (setq indent-tabs-mode t)
+    (setq show-trailing-whitespace nil)
+    (c-set-style "bsd")))
+
+
+
 (add-hook 'c-mode-hook #'enable-kernel-edit-mode)
-(add-hook 'c++-mode-hook #'enable-kernel-edit-mode)
-(add-hook 'c++-mode-hook (lambda () (c-set-style "bsd")))
+(add-hook 'c++-mode-hook #'enable-c++-edit-mode)
+
 (defun my-save-hook ()
   "Called when files are saved."
   (delete-trailing-whitespace)
@@ -113,4 +122,8 @@
   )
 
 (global-set-key (kbd "<f5>") #'revert-all-buffers)
-(global-set-key (kbd "<f6>") (lambda () (interactive) (indent-region (point-min) (point-max))))
+(global-set-key (kbd "<f6>") (lambda ()
+			       (interactive)
+			       (indent-region (point-min) (point-max))
+			       (delete-trailing-whitespace)
+			       ))
